@@ -1,2 +1,2 @@
 # react_playground
-Simple react playgound
+Simple react playground
