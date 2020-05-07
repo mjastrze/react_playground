@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const PATH_SOURCE = path.join(__dirname, 'src');
 const PATH_DIST = path.join(__dirname, 'dist');
@@ -12,6 +13,12 @@ const htmlPlugin = new HtmlWebpackPlugin({
 });
 
 const cleanWebpackPlugin = new CleanWebpackPlugin();
+const copyWebpackPlugin = new CopyWebpackPlugin([
+  {
+    from: 'src/public',
+    to: 'public',
+  },
+]);
 
 module.exports = {
   entry: path.join(PATH_SOURCE, 'index.js'),
@@ -21,6 +28,10 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader', 'eslint-loader'],
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
@@ -37,5 +48,5 @@ module.exports = {
     contentBase: PATH_DIST,
     historyApiFallback: true,
   },
-  plugins: [htmlPlugin, cleanWebpackPlugin],
+  plugins: [htmlPlugin, cleanWebpackPlugin, copyWebpackPlugin],
 };
