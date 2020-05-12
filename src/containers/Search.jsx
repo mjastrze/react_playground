@@ -1,25 +1,38 @@
 import React from 'react';
 import data from '../data.json';
+import { ShowCard } from './ShowCard';
 
-export const Search = () => (
-  <div className="search">
-    <header>
-      <input type="text" placeholder="Search" />
-    </header>
-    <div>
-      {data.shows.map((show) => (
-        <div>
-          <img
-            alt={`${show.title} Show Poster`}
-            src={`/public/img/posters/${show.poster}`}
+// import style from './Search.module.css';
+
+export class Search extends React.Component {
+  state = {
+    searchTerm: 'dupa',
+  };
+
+  handleSearchTermChange = (event) => {
+    this.setState({
+      searchTerm: event.target.value,
+    });
+  };
+
+  render() {
+    const { searchTerm } = this.state;
+    return (
+      <div className="search">
+        <header>
+          <input
+            type="text"
+            placeholder="Search"
+            value={searchTerm}
+            onChange={this.handleSearchTermChange}
           />
-          <div>
-            <h3>{show.title}</h3>
-            <h4>{show.year}</h4>
-            <p>{show.description}</p>
-          </div>
+        </header>
+        <div>
+          {data.shows.map((show) => (
+            <ShowCard key={show.imdbID} show={show} />
+          ))}
         </div>
-      ))}
-    </div>
-  </div>
-);
+      </div>
+    );
+  }
+}
