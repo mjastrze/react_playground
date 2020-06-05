@@ -1,12 +1,12 @@
 import React from 'react';
-import data from '../data.json';
+import PropTypes, { shape, string } from 'prop-types';
 import { ShowCard } from './ShowCard';
 
 // import style from './Search.module.css';
 
 export class Search extends React.Component {
   state = {
-    searchTerm: 'dupa',
+    searchTerm: '',
   };
 
   handleSearchTermChange = (event) => {
@@ -17,6 +17,7 @@ export class Search extends React.Component {
 
   render() {
     const { searchTerm } = this.state;
+    const { shows } = this.props;
     return (
       <div className="search">
         <header>
@@ -28,9 +29,9 @@ export class Search extends React.Component {
           />
         </header>
         <div>
-          {data.shows
+          {shows
             .filter((show) =>
-              `${show.Title} ${show.description}`
+              `${show.title} ${show.description}`
                 .toUpperCase()
                 .includes(searchTerm.toUpperCase()),
             )
@@ -42,3 +43,16 @@ export class Search extends React.Component {
     );
   }
 }
+
+Search.propTypes = {
+  shows: PropTypes.arrayOf(
+    shape({
+      poster: string.isRequired,
+      title: string.isRequired,
+      year: string.isRequired,
+      description: string.isRequired,
+      imdbID: string.isRequired,
+      trailer: string.isRequired,
+    }).isRequired,
+  ).isRequired,
+};

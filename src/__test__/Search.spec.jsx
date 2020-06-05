@@ -10,18 +10,18 @@ test('Search renders correctly', () => {
   // const tree = component.toJSON();
   // expect(tree).toMatchSnapshot();
 
-  const component = shallow(<Search />);
+  const component = shallow(<Search shows={data.shows} />);
   expect(component).toMatchSnapshot();
 });
 
 test('Search should render correct amount of shows', () => {
-  const component = shallow(<Search />);
+  const component = shallow(<Search shows={data.shows} />);
   expect(component.find(ShowCard).length).toEqual(data.shows.length);
 });
 
 test('Search should render correct amount of shows based on search terms', () => {
   const searchWord = 'black';
-  const component = shallow(<Search />);
+  const component = shallow(<Search shows={data.shows} />);
   component.find('input').simulate('change', { target: { value: searchWord } });
   const showCount = data.shows.filter((show) =>
     `${show.title} ${show.description}`
