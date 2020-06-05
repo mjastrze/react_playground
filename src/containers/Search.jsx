@@ -28,9 +28,15 @@ export class Search extends React.Component {
           />
         </header>
         <div>
-          {data.shows.map((show) => (
-            <ShowCard key={show.imdbID} show={show} />
-          ))}
+          {data.shows
+            .filter((show) =>
+              `${show.Title} ${show.description}`
+                .toUpperCase()
+                .includes(searchTerm.toUpperCase()),
+            )
+            .map((show) => (
+              <ShowCard key={show.imdbID} show={show} />
+            ))}
         </div>
       </div>
     );

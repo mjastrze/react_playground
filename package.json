@@ -2,14 +2,16 @@
   "name": "minimal-react-webpack-babel-eslint-prettier-setup",
   "version": "1.0.0",
   "private": true,
-  "repository": "git@github.com:junagao/minimal-react-webpack-babel-eslint-prettier-setup.git",
-  "author": "Juliane Nagao <julianens@gmail.com> (http://junagao.com)",
-  "license": "MIT",
+  "repository": "",
+  "author": "",
+  "license": "",
   "scripts": {
     "dev": "webpack-dev-server --mode development --open --hot",
     "build": "webpack --mode production",
     "lint": "eslint ./src --cache && echo \"No linting errors\"",
-    "lint:fix": "eslint ./src --fix"
+    "lint:fix": "eslint ./src --fix",
+    "test": "jest",
+    "test:update": "jest -u"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
@@ -38,12 +40,24 @@
     "@hot-loader/react-dom": "^16.11.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.5.3",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "jest": "^26.0.1",
     "prop-types": "^15.7.2",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-hot-loader": "^4.12.17",
     "react-router-dom": "^5.1.2",
+    "react-test-renderer": "^16.13.1",
     "style-loader": "^1.2.1",
     "styled-components": "^5.1.0"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>src/setupTests.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   }
 }
