@@ -1,6 +1,6 @@
 import React from 'react';
 import { shape, string } from 'prop-types';
-
+import { Header } from './Header';
 import { Spinner } from './Spinner';
 
 export class Details extends React.Component {
@@ -27,9 +27,10 @@ export class Details extends React.Component {
     const ratingComponent = rating ? <h3>{rating}</h3> : <Spinner />;
     return (
       <div className="details">
-        <header>
+        {/* <header>
           <h1>video</h1>
-        </header>
+        </header> */}
+        <Header />
         <section>
           <h1>{title}</h1>
           <h2>({year})</h2>
