@@ -1,55 +1,68 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { shape, string } from 'prop-types';
 import { Header } from './Header';
 import { Spinner } from './Spinner';
 
-export class Details extends React.Component {
-  state = {
-    rating: '',
-  };
+import { getAPIDetails } from './actionCreators';
 
-  componentDidMount() {
-    const {
-      show: { imdbID },
-    } = this.props;
+const mapStateToProps = (state, ownProps) => ({
+  rating:
+    state.apiData[ownProps.show.imdbID] &&
+    state.apiData[ownProps.show.imdbID].rating,
+});
 
-    fetch(`http://localhost:3000/${imdbID}`)
-      .then((response) => response.json())
-      .then(({ rating }) => this.setState({ rating }));
-  }
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  getAPIData() {
+    dispatch(getAPIDetails(ownProps.show.imdbID));
+  },
+});
 
-  render() {
-    const {
-      show: { title, description, year, poster, trailer },
-    } = this.props;
+export const Details = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(
+  class Details extends React.Component {
+    componentDidMount() {
+      const { rating, getAPIData } = this.props;
 
-    const { rating } = this.state;
-    const ratingComponent = rating ? <h3>{rating}</h3> : <Spinner />;
-    return (
-      <div className="details">
-        {/* <header>
-          <h1>video</h1>
-        </header> */}
-        <Header />
-        <section>
-          <h1>{title}</h1>
-          <h2>({year})</h2>
-          {ratingComponent}
-          <img src={`/public/img/posters/${poster}`} alt="ssds" />
-          <p>{description}</p>
-        </section>
-        <div>
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${trailer}/rel=0&amp;showinfo=0`}
-            title={`Trailer for ${title}`}
-            frameBorder="0"
-            allowFullScreen
-          />
+      if (!rating) {
+        getAPIData();
+      }
+    }
+
+    render() {
+      const {
+        show: { title, description, year, poster, trailer },
+        rating,
+      } = this.props;
+      const ratingComponent = rating ? <h3>{rating}</h3> : <Spinner />;
+      return (
+        <div className="details">
+          <Header />
+          <section>
+            <h1>{title}</h1>
+            <h2>({year})</h2>
+            {ratingComponent}
+            <img
+              src={`/public/img/posters/${poster}`}
+              alt={`Poster for ${title}`}
+            />
+            <p>{description}</p>
+          </section>
+          <div>
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${trailer}?rel=0&amp;showinfo=0`}
+              title={`Trailer for ${title}`}
+              frameBorder="0"
+              allowFullScreen
+            />
+          </div>
         </div>
-      </div>
-    );
-  }
-}
+      );
+    }
+  },
+);
 
 Details.propTypes = {
   show: shape({

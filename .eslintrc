@@ -17,6 +17,7 @@
   "plugins": ["react", "react-hooks", "jsx-a11y", "import", "prettier"],
   "rules": {
     "react/prop-types": 0,
+    "react/prefer-stateless-function": 0,
     "jsx-a11y/anchor-is-valid": 0,
     "react/jsx-props-no-spreading": 0,
     "import/prefer-default-export": 0,
